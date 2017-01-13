@@ -6,6 +6,7 @@ from flask import request, redirect, url_for, render_template
 from flask_api import status
 from app import db
 from app import JSON_API_Message as API_MSG
+from app import Payload as Payload
 
 from app.mod_organization.models import App
 from app.mod_organization.models import Organization
@@ -50,14 +51,29 @@ def get_organizations():
     return json_str
 
 
+
 # Add record
 @bp_organization.route('/', methods=['POST'])
 def add_organization():
 
-    # Create the object
-    name = request.form['name']
+    data = None
 
-    o = Organization(name)
+    if request.json:
+        #data = json.dumps(request.json)
+        #obj = json.loads(data)
+        #print obj['name']
+
+        data = json.dumps(request.json)
+        obj = json.loads(data)
+        p = Payload(data)
+    else:
+        return jsonify(API_MSG.JSON_400_BAD_REQUEST), status.HTTP_400_BAD_REQUEST
+
+    # Create the object
+    # Store the name property from the parsed paylod
+    o = Organization(p.name)
+    # Store the parsed json
+    #o = Organization(data)
 
     db.session.add(o)
     db.session.commit()

@@ -32,3 +32,4 @@ SQLAlchemy==1.1.4
 stormpath==2.4.4
 Werkzeug==0.11.11
 WTForms==2.1
+Flask-Cors==3.0.2

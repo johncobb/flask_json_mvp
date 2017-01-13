@@ -2,6 +2,7 @@
 
 import os
 import jwt
+import json
 from functools import wraps
 from flask import Flask, _app_ctx_stack
 from flask_cors import cross_origin
@@ -14,8 +15,12 @@ from werkzeug.security import safe_str_cmp
 class JSON_API_Message:
     JSON_200_OK = {"200":"OK"}
     JSON_204_NO_CONTENT = {"204": "NO CONTENT"}
+    JSON_400_BAD_REQUEST = {"400": "BAD REQUEST"}
 
 
+class Payload(object):
+    def __init__(self, j):
+        self.__dict__ = json.loads(j)
 
 app = Flask(__name__)
 
